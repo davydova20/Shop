@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const rootDir = require("./helpers/path");
+const errorController = require("./controllers/404");
 
 const app = express();
 // const expressHbs = require('express-handlebars');
@@ -19,14 +20,12 @@ app.set('views', 'views'); //where find templates
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir, 'public')));
 
-const adminData = require("./routes/admin");
-app.use('/admin', adminData.routes);
+const adminRoutes = require("./routes/admin");
+app.use('/admin', adminRoutes);
 
 const shopRoutes = require("./routes/shop");
 app.use(shopRoutes);
 
-app.use((req, res, next) => {
-    res.status(404).render('404', {docTitle: 'Error page'});
-}); //for all not matching routes
+app.use(errorController.renderErrorPage); //for all not matching routes
 app.listen(3000)
 
