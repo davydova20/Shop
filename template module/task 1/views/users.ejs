@@ -1,0 +1,15 @@
+<%- include("includes/header") %>
+
+<body>
+<main>
+    <% if (users.length > 0) { %>
+        <ul>
+            <% for(let user of users) { %>
+                <li><%= user.name %></li>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>Users not found</p>
+    <% } %>
+</main>
+<%- include("includes/end") %>
