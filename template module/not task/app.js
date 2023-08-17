@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const rootDir = require("./helpers/path");
 const errorController = require("./controllers/404");
+const db = require("./helpers/database");
 
 const app = express();
 // const expressHbs = require('express-handlebars');

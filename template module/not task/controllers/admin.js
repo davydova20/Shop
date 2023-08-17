@@ -9,13 +9,13 @@ exports.getAddProduct = (req, res, next) => {
 }
 
 exports.getAdminProducts = (req, res, next) => {
-    Product.fetchAll((products) => {
+    Product.fetchAll().then(([products]) => {
         res.render('admin/products', {
             prods: products,
             docTitle: 'Products',
             path: '/admin/products',
         });
-    });
+    }).catch(err => console.log(err));
 
 }
 
@@ -26,8 +26,12 @@ exports.deleteAdminProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
     const product = new Product(null, req.body.title, req.body.imageUrl, req.body.description, req.body.price);
-    product.save();
-    res.redirect('/');
+    product.save().then(() => {
+        res.redirect('/');
+    }).catch(err => {
+            console.log(err)
+        }
+    )
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -48,8 +52,12 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
     const product = new Product(req.body.id, req.body.title, req.body.imageUrl, req.body.description, req.body.price);
-    product.save();
-    res.redirect('/admin/products');
+    product.save().then(() => {
+        res.redirect('/admin/products');
+    }).catch(err => {
+            console.log(err)
+        }
+    )
 };
 
 exports.postDeleteProduct = (req, res) => {
